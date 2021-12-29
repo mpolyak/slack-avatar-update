@@ -39,6 +39,11 @@ jobs:
             git config user.name github-actions
             git config user.email github-actions@github.com
             git add state.txt
-            git commit -m "New avatar state"
-            git push
+            if [[ `git log -1 --format='%an'` == 'github-actions' ]]; then
+              git commit --amend -m "New avatar state"
+              git push -f
+            else
+              git commit -m "New avatar state"
+              git push
+            fi
           fi
