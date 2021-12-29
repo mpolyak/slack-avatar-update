@@ -24,10 +24,13 @@ jobs:
           node-version: '16'
 
       - name: Update avatar on Slack
-        run: node slack-avatar
+        run: |
+          cd slack-avatar
+          npm start
+          cd -
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-          STATE_FILE: state.txt
+          STATE_FILE: ../state.txt
 
       - name: Commit new avatar state
         run: |
