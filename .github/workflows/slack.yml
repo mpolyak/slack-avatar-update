@@ -1,9 +1,8 @@
 name: Update avatar on Slack
 
 on:
-  push:
-    branches:
-    - master
+  schedule:
+    - cron: '*/10 * * * *' # every 10th minute
 
 jobs:
   update:
