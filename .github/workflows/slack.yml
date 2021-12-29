@@ -1,0 +1,40 @@
+name: Update avatar on Slack
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Checkout slack-avatar
+        uses: actions/checkout@v2
+        with:
+          repository: mpolyak/slack-avatar
+          path: slack-avatar
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Update avatar on Slack
+        run: node slack-avatar
+        env:
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          STATE_FILE: state.txt
+
+      - name: Commit new avatar state
+        run: |
+          if [[ `git status --porcelain` ]]; then
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+            git add state.txt
+            git commit -m "New avatar state"
+            git push
+          fi
