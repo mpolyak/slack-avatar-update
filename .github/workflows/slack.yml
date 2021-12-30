@@ -1,6 +1,7 @@
 name: Update avatar on Slack
 
 on:
+  workflow_dispatch:
   schedule:
     # every 10th minute
     - cron: '*/10 * * * *'
@@ -23,6 +24,12 @@ jobs:
         with:
           node-version: '16'
 
+      - name: Cache state.txt
+        uses: actions/cache@v2
+        with:
+          path: state.txt
+          key: state-file
+
       - name: Update avatar on Slack
         run: |
           cd slack-avatar
@@ -31,19 +38,3 @@ jobs:
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           STATE_FILE: ../state.txt
-
-      - name: Commit new avatar state
-        run: |
-          git status
-          if [[ `git status --porcelain` ]]; then
-            git config user.name github-actions
-            git config user.email github-actions@github.com
-            git add state.txt
-            if [[ `git log -1 --format='%an'` == 'github-actions' ]]; then
-              git commit --amend -m "New avatar state"
-              git push -f
-            else
-              git commit -m "New avatar state"
-              git push
-            fi
-          fi
