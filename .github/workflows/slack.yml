@@ -24,17 +24,15 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Set cache keys
-        id: cache-keys
+      - name: Compute next run number
         run: |
-          echo '::set-output name=prev::${{ github.run_number }}'
-          echo '::set-output name=next::$(expr ${{ github.run_number }} + 1)'
+          echo "NEXT_RUN_NUMBER=$(expr ${{ github.run_number }} + 1)" >> $GITHUB_ENV
 
-      - name: Cache prev state.txt
+      - name: Cache state.txt
         uses: actions/cache@v2
         with:
           path: state.txt
-          key: state-${{ steps.cache-keys.outputs.prev }}
+          key: state-${{ github.run_number }}"
 
       - name: Update avatar on Slack
         run: |
@@ -49,4 +47,4 @@ jobs:
         uses: actions/cache@v2
         with:
           path: state.txt
-          key: state-${{ steps.cache-keys.outputs.next }}
+          key: state-${{ env.NEXT_RUN_NUMBER }}
