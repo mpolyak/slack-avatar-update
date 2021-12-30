@@ -32,7 +32,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: state.txt
-          key: state-${{ github.run_number }}"
+          key: state-${{ github.run_number }}
 
       - name: Update avatar on Slack
         run: |
