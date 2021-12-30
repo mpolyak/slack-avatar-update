@@ -9,6 +9,7 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -25,23 +26,20 @@ jobs:
           node-version: '16'
 
       - name: Compute next run number
-        run: |
-          echo "NEXT_RUN_NUMBER=$(expr ${{ github.run_number }} + 1)" >> $GITHUB_ENV
+        run: echo "NEXT_RUN_NUMBER=$(expr ${{ github.run_number }} + 1)" >> $GITHUB_ENV
 
-      - name: Cache state.txt
+      - name: Get state.txt from cache
         uses: actions/cache@v2
         with:
           path: state.txt
           key: state-${{ github.run_number }}
 
       - name: Update avatar on Slack
-        run: |
-          cd slack-avatar
-          npm start
-          cd -
+        run: npm start
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           STATE_FILE: ../state.txt
+        working-directory: slack-avatar
 
       - name: Cache next state.txt
         uses: actions/cache@v2
