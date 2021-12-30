@@ -28,7 +28,7 @@ jobs:
         id: cache-keys
         run: |
           echo '::set-output name=prev::${{ github.run_number }}'
-          echo '::set-output name=next::`echo -n expr ${{ github.run_number }} + 1`'
+          echo '::set-output name=next::$(expr ${{ github.run_number }} + 1)'
 
       - name: Cache prev state.txt
         uses: actions/cache@v2
