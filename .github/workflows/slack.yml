@@ -24,11 +24,17 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Cache state.txt
+      - name: Set cache keys
+        id: cache-keys
+        run: |
+          echo '::set-output name=prev::${{ github.run_number }}'
+          echo '::set-output name=next::`expr ${{ github.run_number }} + 1`'
+
+      - name: Cache prev state.txt
         uses: actions/cache@v2
         with:
           path: state.txt
-          key: state-file
+          key: state-${{ steps.cache-keys.outputs.prev }}
 
       - name: Update avatar on Slack
         run: |
@@ -38,3 +44,9 @@ jobs:
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
           STATE_FILE: ../state.txt
+
+      - name: Cache next state.txt
+        uses: actions/cache@v2
+        with:
+          path: state.txt
+          key: state-${{ steps.cache-keys.outputs.next }}
