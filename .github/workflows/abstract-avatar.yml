@@ -14,37 +14,43 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Checkout slack-avatar
+      - name: Checkout slack-abstract
         uses: actions/checkout@v2
         with:
-          repository: mpolyak/slack-avatar
-          path: slack-avatar
+          repository: mpolyak/slack-abstract
+          path: slack-abstract
 
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '16'
+          cache: 'npm'
+          cache-dependency-path: slack-abstract/package-lock.json
+
+      - name: Install Node.js dependencies
+        run: npm install
+        working-directory: slack-abstract
 
       - name: Compute next run number
         run: echo "NEXT_RUN_NUMBER=$(expr ${{ github.run_number }} + 1)" >> $GITHUB_ENV
 
-      - name: Get state.txt from cache
+      - name: Get game.save from cache
         uses: actions/cache@v2
         with:
-          path: state.txt
-          key: state-${{ github.run_number }}
+          path: game.save
+          key: game-${{ github.run_number }}
           restore-keys: |
-            state-
+            game-
 
       - name: Update avatar on Slack
         run: npm start
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-          STATE_FILE: ../state.txt
-        working-directory: slack-avatar
+          SAVE_FILE: ../game.save
+        working-directory: slack-abstract
 
-      - name: Cache next state.txt
+      - name: Cache game.save for next run
         uses: actions/cache@v2
         with:
-          path: state.txt
-          key: state-${{ env.NEXT_RUN_NUMBER }}
+          path: game.save
+          key: game-${{ env.NEXT_RUN_NUMBER }}

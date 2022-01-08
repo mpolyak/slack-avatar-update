@@ -5,4 +5,4 @@
 *.sublime*
 
 # GitHub Actions workflow
-slack-avatar/
+slack-abstract/
