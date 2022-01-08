@@ -21,7 +21,6 @@ jobs:
           path: slack-abstract
 
       - name: Setup Node.js
-        id: setup-node
         uses: actions/setup-node@v2
         with:
           node-version: '16'
@@ -29,7 +28,6 @@ jobs:
           cache-dependency-path: slack-abstract/package-lock.json
 
       - name: Install Node.js dependencies
-        if: steps.setup-node.outputs.cache-hit != 'true'
         run: npm install
         working-directory: slack-abstract
 
