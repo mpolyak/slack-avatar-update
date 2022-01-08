@@ -46,7 +46,7 @@ jobs:
         run: npm start
         env:
           SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
-          SAVE_FILE: ../game.save
+          SAVE_GAME: ../game.save
         working-directory: slack-abstract
 
       - name: Cache game.save for next run
