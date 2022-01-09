@@ -3,8 +3,8 @@ name: Update avatar on Slack
 on:
   workflow_dispatch:
   schedule:
-    # every 10th minute
-    - cron: '*/10 * * * *'
+    # every 7th minute
+    - cron: '*/7 * * * *'
 
 jobs:
   update:
