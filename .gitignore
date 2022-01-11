@@ -3,6 +3,7 @@
 
 # Project
 *.sublime*
+token.txt
 
 # GitHub Actions workflow
 slack-abstract/
