@@ -2,9 +2,11 @@ name: Update avatar on Slack
 
 on:
   workflow_dispatch:
+  repository_dispatch:
+    types: [update]
   schedule:
     # Schedule to run every 5th minute,
-    # but in practice may run 10 minutes to an hour late.
+    # but in practice may run 10 minutes to an hour later.
     - cron: '*/5 * * * *'
 
 jobs:
