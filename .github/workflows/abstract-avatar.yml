@@ -5,9 +5,9 @@ on:
   repository_dispatch:
     types: [update]
   schedule:
-    # Schedule to run every 5th minute,
+    # Schedule to run every 7th minute,
     # but in practice may run 10 minutes to an hour later.
-    - cron: '*/5 * * * *'
+    - cron: '*/7 * * * *'
 
 jobs:
   update:

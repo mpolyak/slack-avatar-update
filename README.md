@@ -3,7 +3,7 @@ Automated update of my [Slack avatar](https://github.com/mpolyak/slack-abstract)
 
 ## Execution
 
-The workflow updating the avatar is [scheduled](https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#scheduled-events) to run every 5 minutes, but in practice has unpredictable execution times.
+The workflow updating the avatar is [scheduled](https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#scheduled-events) to run every 7 minutes, but in practice has unpredictable execution times.
 
 It is also [triggered](https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows#repository_dispatch) to run by a [Cloudflare Worker](https://workers.cloudflare.com/) using a [cron trigger](https://developers.cloudflare.com/workers/platform/cron-triggers) every 30 minutes:
 
