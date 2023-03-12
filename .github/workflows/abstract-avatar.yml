@@ -15,18 +15,18 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Checkout slack-abstract
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: mpolyak/slack-abstract
           path: slack-abstract
 
       - name: Setup Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: 16
           cache: 'npm'
           cache-dependency-path: slack-abstract/package-lock.json
 
@@ -35,7 +35,7 @@ jobs:
         working-directory: slack-abstract
 
       - name: Get game.save from cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: game.save
           key: game-${{ github.run_number }}
@@ -53,7 +53,7 @@ jobs:
         run: echo "NEXT_RUN_NUMBER=$(expr ${{ github.run_number }} + 1)" >> $GITHUB_ENV
 
       - name: Cache game.save for next run
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: game.save
           key: game-${{ env.NEXT_RUN_NUMBER }}
